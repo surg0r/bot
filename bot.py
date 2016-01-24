@@ -73,14 +73,14 @@ while True:
             if chance == 4:
                 pass
             
-            elif comment.author.name in downvoters:
+            elif chance < 4 and comment.author.name in downvoters:
                print "downvoted: ", comment.author.name, comment.id
                comment.downvote()
                n_downvotes+=1
                logstr = time.strftime("%Y-%m-%d %H:%M:%S")+' downvoted '+comment.author.name+' '+comment.id+'\n'
                log(logstr)
                
-            elif comment.author.name in upvoters:
+            elif chance < 4 and comment.author.name in upvoters:
                 print 'match', comment.author.name, comment.id
                 logstr = time.strftime("%Y-%m-%d %H:%M:%S")+' upvoted '+comment.author.name+' '+comment.id+'\n'
                 log(logstr)
