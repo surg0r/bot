@@ -67,16 +67,20 @@ while True:
          pass
        
         else:
-            
             already_comment_id.append(comment.id)
-
-            if comment.author.name in downvoters:
+            
+            chance = random.randint(1,4)                #only vote manipulate 75% of time..
+            if chance == 4:
+                break
+            
+            elif comment.author.name in downvoters:
                print "downvoted: ", comment.author.name, comment.id
                comment.downvote()
                n_downvotes+=1
                logstr = time.strftime("%Y-%m-%d %H:%M:%S")+' downvoted '+comment.author.name+' '+comment.id+'\n'
                log(logstr)
-            if comment.author.name in upvoters:
+               
+            elif comment.author.name in upvoters:
                 print 'match', comment.author.name, comment.id
                 logstr = time.strftime("%Y-%m-%d %H:%M:%S")+' upvoted '+comment.author.name+' '+comment.id+'\n'
                 log(logstr)
