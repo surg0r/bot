@@ -71,7 +71,7 @@ while True:
             
             chance = random.randint(1,4)                #only vote manipulate 75% of time..
             if chance == 4:
-                break
+                pass
             
             elif comment.author.name in downvoters:
                print "downvoted: ", comment.author.name, comment.id
