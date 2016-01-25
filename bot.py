@@ -38,12 +38,15 @@ def log(string_data):
     return
 
 
-
 r = praw.Reddit(user_agent='Something random')          #change this to a unique string..
-r.login(USERNAME, PASSWORD, disable_warning=True)
-#r.login(USERNAME, PASSWORD)
-subreddit = r.get_subreddit('test')                     #a subreddit to monitor..
-#subreddit_comments = subreddit.get_comments()
+
+try:
+    r.login(USERNAME, PASSWORD, disable_warning=True)
+except Exception as e:
+    print 'login failure', type(e), e.args, e
+    exit()
+
+subreddit = r.get_subreddit('test')                     #lazy so no need to exception raise.
 
 print '>>>Reddit /r/bitcoin bot..<<<'
 
@@ -97,6 +100,7 @@ while True:
         log("Error"+type(e)+e.args)
         time.sleep(20)
         continue
+    
  except KeyboardInterrupt:
         print 'Exiting..upvotes: '+str(n_upvotes), ' downvotes: '+str(n_downvotes)
         log(time.strftime("%Y-%m-%d %H:%M:%S")+' manual shutdown CTRL-C..\n')
