@@ -56,7 +56,7 @@ schedule.every().day.at("07:00").do(log_work)           #scheduled log maintenan
 schedule.every().day.at("19:00").do(log_work)
 
 while True:
-
+ try:
 
     subreddit_comments = subreddit.get_comments()       #get the new comments..
 
@@ -91,3 +91,13 @@ while True:
     sys.stdout.flush()
     schedule.run_pending()
     time.sleep(random.randint(0,20))            #randomly wait before scanning subreddit again..
+ 
+ except Exception as e:
+        print "Error", type(e), e.args, e
+        log("Error"+type(e)+e.args)
+        time.sleep(20)
+        continue
+ except KeyboardInterrupt:
+        print 'Exiting..upvotes: '+str(n_upvotes), ' downvotes: '+str(n_downvotes)
+        log(time.strftime("%Y-%m-%d %H:%M:%S")+' manual shutdown CTRL-C..\n')
+        exit()
