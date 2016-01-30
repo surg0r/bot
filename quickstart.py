@@ -14,6 +14,7 @@ try:
 except ImportError:
     flags = None
 
+#SCOPES = 'https://www.googleapis.com/auth/gmail.readonly'
 SCOPES = 'https://mail.google.com'
 CLIENT_SECRET_FILE = 'client_secret.json'
 APPLICATION_NAME = 'Gmail API Python Quickstart'
@@ -48,11 +49,28 @@ def get_credentials():
     return credentials
 
 def CredsSendLog(ups,downs):
-    credentials = get_credentials()
-    http = credentials.authorize(httplib2.Http())
-    service = discovery.build('gmail', 'v1', http=http)
-    mail_msg = gmaily.CreateMessageWithAttachment(sender='something@gmail.com', to='something@something.com', subject='Reddit bot log', message_text='Activity log attached.\nTotal downvotes='+str(downs)+'.\nTotal upvotes='+str(ups)+'.', file_dir='/', filename='log.txt')
-    return gmaily.SendMessage(service=service,user_id='something@something.com',message=mail_msg)
+    try:
+        credentials = get_credentials()
+        http = credentials.authorize(httplib2.Http())
+        service = discovery.build('gmail', 'v1', http=http)
+        mail_msg = gmaily.CreateMessageWithAttachment(sender='someone@gmail.com', to='someone_else@gmail.com', subject='Reddit bot log', message_text='Activity log attached.\nTotal downvotes='+str(downs)+'.\nTotal upvotes='+str(ups)+'.', file_dir='/home/pete/bot/log', filename='log.txt')
+        gmaily.SendMessage(service=service,user_id='someone@gmail.com',message=mail_msg)
+        return
+    except Exception as e:
+        print("Mail creation Error", type(e), e.args, e)
+        return
+
+def ErrorSendEmail():
+    try:
+        credentials = get_credentials()
+        http = credentials.authorize(httplib2.Http())
+        service = discovery.build('gmail', 'v1', http=http)
+        mail_msg = gmaily.CreateMessageWithAttachment(sender='someone@gmail.com', to='someone@gmail.com', subject='Reddit bot Error', message_text='Bot shutdown', file_dir='/home/pete/bot/log', filename='log.txt')
+        gmaily.SendMessage(service=service,user_id='someone@gmail.com',message=mail_msg)
+        return
+    except Exception as e:
+        print("Mail creation Error", type(e), e.args, e)
+        return
 
 
 def main():
